@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Katsoffre – Commande confirmée 🎉</title>
+<title>Katsoffre – Paiement sécurisé</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -17,20 +17,20 @@
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: var(--paper);
+    background: #f0ede6;
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
   nav {
-    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     padding: 1.4rem 2.5rem;
+    background: var(--paper);
     border-bottom: 1px solid var(--soft);
   }
   .logo {
@@ -42,321 +42,368 @@
     color: var(--ink);
   }
   .logo span { color: var(--accent); }
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .step { width: 28px; height: 4px; border-radius: 99px; background: var(--soft); }
+  .step.active { background: var(--accent); }
+  .step.done { background: var(--ink); }
+
+  .secure-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--green);
+    font-weight: 600;
+  }
 
   main {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: 3rem 1.5rem;
-    max-width: 600px;
-    width: 100%;
+  }
+
+  .checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
     gap: 2rem;
-    text-align: center;
-  }
-
-  /* CONFETTI ANIMATION */
-  .confetti-wrap {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
-  }
-  .confetti-piece {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    top: -10px;
-    border-radius: 2px;
-    animation: confettifall linear forwards;
-  }
-  @keyframes confettifall {
-    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-  }
-
-  /* SUCCESS ICON */
-  .success-icon {
-    width: 80px;
-    height: 80px;
-    background: #dcfce7;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.4rem;
-    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-    position: relative;
-    z-index: 1;
-  }
-  @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-  .main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.5s 0.2s ease both;
-  }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
-
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2rem, 5vw, 3rem);
-    letter-spacing: -0.04em;
-    line-height: 1.1;
-  }
-  h1 em { font-style: normal; color: var(--accent); }
-
-  .subtitle {
-    font-size: 1rem;
-    color: #555;
-    max-width: 440px;
-    line-height: 1.7;
-  }
-
-  /* ORDER RECAP CARD */
-  .order-recap {
-    background: #fff;
-    border-radius: 16px;
-    padding: 1.8rem;
+    max-width: 860px;
     width: 100%;
+    animation: slideUp 0.4s ease both;
+  }
+  @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+
+  @media (max-width: 700px) {
+    .checkout-layout { grid-template-columns: 1fr; }
+    .order-summary { order: -1; }
+  }
+
+  /* PAYMENT FORM */
+  .payment-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.2rem;
     box-shadow: 0 4px 30px rgba(0,0,0,0.07);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    text-align: left;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.5s 0.35s ease both;
+    gap: 1.6rem;
   }
-  .recap-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .recap-title {
+  .payment-card h2 {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
   }
-  .recap-badge {
-    background: #dcfce7;
-    color: #15803d;
+
+  .form-section { display: flex; flex-direction: column; gap: 1rem; }
+  .form-label {
     font-size: 0.75rem;
     font-weight: 700;
-    padding: 0.25rem 0.7rem;
-    border-radius: 999px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: -0.4rem;
   }
-  .recap-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 0.7rem 0;
-    border-bottom: 1px solid var(--soft);
-    font-size: 0.88rem;
-    gap: 1rem;
-  }
-  .recap-row:last-of-type { border-bottom: none; }
-  .recap-label { color: #555; }
-  .recap-value { font-weight: 600; text-align: right; }
+  .field-group { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field-label { font-size: 0.82rem; font-weight: 600; }
+  .field-row { display: flex; gap: 0.8rem; }
+  .field-row .field-group { flex: 1; }
 
-  /* NEXT STEPS */
-  .next-steps {
-    background: var(--soft);
-    border-radius: 16px;
-    padding: 1.8rem;
+  input[type="text"], input[type="email"] {
+    border: 1.5px solid var(--soft);
+    border-radius: 8px;
+    padding: 0.82rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem;
+    color: var(--ink);
+    background: var(--paper);
+    outline: none;
+    transition: border-color 0.2s;
     width: 100%;
-    text-align: left;
+  }
+  input:focus { border-color: var(--ink); }
+
+  .card-input-wrap {
     position: relative;
-    z-index: 1;
-    animation: fadeUp 0.5s 0.5s ease both;
+    display: flex;
+    align-items: center;
   }
-  .next-steps h3 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    margin-bottom: 1rem;
+  .card-input-wrap input { padding-right: 3rem; }
+  .card-icons {
+    position: absolute;
+    right: 0.8rem;
+    display: flex;
+    gap: 4px;
+    font-size: 1.1rem;
   }
-  .steps-list { display: flex; flex-direction: column; gap: 0.8rem; }
-  .step-row {
+
+  .simulation-banner {
+    background: #fffbe6;
+    border: 1.5px solid var(--gold);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    font-size: 0.82rem;
+    color: #7a5c00;
     display: flex;
     align-items: flex-start;
-    gap: 0.8rem;
-    font-size: 0.88rem;
-    color: #333;
+    gap: 0.6rem;
     line-height: 1.5;
   }
-  .step-num {
-    background: var(--ink);
-    color: var(--paper);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    font-size: 0.7rem;
-    font-weight: 700;
+
+  .pay-btn {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    padding: 1.15rem 2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: -0.01em;
+    transition: background 0.18s, transform 0.15s;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
+    gap: 0.6rem;
   }
+  .pay-btn:hover { background: #d93a00; transform: translateY(-2px); }
 
-  /* REASSURANCE */
-  .reassurance-row {
-    display: flex;
-    gap: 1rem;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.5s 0.65s ease both;
-  }
-  @media (max-width: 520px) { .reassurance-row { flex-direction: column; } }
-  .reassurance-card {
-    flex: 1;
-    background: #fff;
-    border-radius: 12px;
-    padding: 1.2rem;
-    font-size: 0.82rem;
-    color: #555;
-    line-height: 1.5;
-    text-align: left;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-  }
-  .reassurance-card strong { display: block; color: var(--ink); font-weight: 700; margin-bottom: 0.3rem; }
-
-  .back-link {
-    position: relative;
-    z-index: 1;
-    font-size: 0.82rem;
+  .pay-security {
+    text-align: center;
+    font-size: 0.76rem;
     color: var(--muted);
-    text-decoration: none;
-    border-bottom: 1px dashed var(--muted);
-    padding-bottom: 1px;
-    animation: fadeUp 0.5s 0.8s ease both;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
   }
-  .back-link:hover { color: var(--ink); }
+
+  /* ORDER SUMMARY */
+  .order-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .summary-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 1.8rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.07);
+  }
+  .summary-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+  }
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--soft);
+    gap: 1rem;
+  }
+  .summary-item:last-of-type { border-bottom: none; }
+  .summary-item-name { font-size: 0.88rem; font-weight: 500; }
+  .summary-item-sub { font-size: 0.76rem; color: var(--muted); margin-top: 0.15rem; }
+  .summary-item-price { font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
+
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 2px solid var(--ink);
+    margin-top: 0.5rem;
+  }
+  .summary-total span:first-child { font-weight: 700; font-size: 0.9rem; }
+  .summary-total-price {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+  }
+
+  .savings-pill {
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    text-align: center;
+  }
+
+  .guarantee-card {
+    background: var(--soft);
+    border-radius: 14px;
+    padding: 1.2rem;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    font-size: 0.82rem;
+    color: #444;
+    line-height: 1.5;
+  }
+  .guarantee-icon { font-size: 1.3rem; }
 
   footer {
-    width: 100%;
     border-top: 1px solid var(--soft);
     padding: 1.2rem 2.5rem;
     text-align: center;
     font-size: 0.78rem;
     color: var(--muted);
   }
+
+  /* Loading animation on click */
+  .pay-btn.loading { background: #aaa; pointer-events: none; }
 </style>
 </head>
 <body>
 
-<div class="confetti-wrap" id="confetti"></div>
-
 <nav>
   <a href="index.html" class="logo">Kats<span>offre</span></a>
+  <div class="step-indicator">
+    <div class="step done"></div>
+    <div class="step done"></div>
+    <div class="step active"></div>
+    <div class="step"></div>
+    <span style="margin-left:0.3rem;">Étape 2 / 3</span>
+  </div>
+  <div class="secure-badge">🔒 Paiement simulé</div>
 </nav>
 
 <main>
-  <div class="success-icon">🎉</div>
+  <div class="checkout-layout">
 
-  <div class="main-content">
-    <h1>C'est <em>confirmé</em>,<br id="nameBreak"> <span id="prenomDisplay">bienvenue !</span></h1>
-    <p class="subtitle">
-      Ta commande est validée. Tu vas recevoir ton accès par e-mail dans les prochaines minutes. Le temps de prendre un café, et c'est dans ta boîte.
-    </p>
-  </div>
+    <!-- PAYMENT FORM -->
+    <div class="payment-card">
+      <h2>Informations de paiement</h2>
 
-  <div class="order-recap">
-    <div class="recap-header">
-      <span class="recap-title">Récapitulatif de commande</span>
-      <span class="recap-badge">✅ Confirmé</span>
-    </div>
-    <div class="recap-row">
-      <span class="recap-label">Produit</span>
-      <span class="recap-value">Katsoffre — Pack Prompts + Templates</span>
-    </div>
-    <div class="recap-row">
-      <span class="recap-label">Contenu</span>
-      <span class="recap-value">50 prompts · 20 templates · Guide productivité</span>
-    </div>
-    <div class="recap-row">
-      <span class="recap-label">Montant débité</span>
-      <span class="recap-value">15€ <span style="color:#888;font-weight:400;">(simulation)</span></span>
-    </div>
-    <div class="recap-row">
-      <span class="recap-label">Livraison</span>
-      <span class="recap-value">Par e-mail · Accès immédiat</span>
-    </div>
-  </div>
-
-  <div class="next-steps">
-    <h3>📬 Et maintenant ?</h3>
-    <div class="steps-list">
-      <div class="step-row">
-        <span class="step-num">1</span>
-        <span>Vérifie ta boîte e-mail — ton lien d'accès t'a été envoyé (pense aux spams si besoin).</span>
+      <div class="simulation-banner">
+        ⚠️ <div><strong>Mode simulation :</strong> Cette page est un exercice pédagogique. Aucune carte ne sera débitée. N'entre aucune vraie donnée bancaire.</div>
       </div>
-      <div class="step-row">
-        <span class="step-num">2</span>
-        <span>Télécharge tes fichiers et organise-les dans un dossier dédié pour retrouver facilement ce dont tu as besoin.</span>
-      </div>
-      <div class="step-row">
-        <span class="step-num">3</span>
-        <span>Lance-toi avec le Guide Productivité pour tirer le meilleur parti de tes nouveaux outils dès aujourd'hui.</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="reassurance-row">
-    <div class="reassurance-card">
-      <strong>🔄 Mises à jour incluses</strong>
-      Tu reçois toutes les futures versions gratuitement. Ton pack évolue avec toi.
-    </div>
-    <div class="reassurance-card">
-      <strong>💬 Un problème ?</strong>
-      Réponds simplement à l'e-mail de confirmation. On répond sous 24h, toujours.
-    </div>
-    <div class="reassurance-card">
-      <strong>🎓 Conçu pour toi</strong>
-      Chaque prompt et template a été conçu pour les étudiants qui veulent aller vite et bien.
-    </div>
-  </div>
+      <div class="form-section">
+        <div class="form-label">Titulaire de la carte</div>
+        <div class="field-group">
+          <div class="field-label">Nom complet</div>
+          <input type="text" placeholder="Lucas Dupont">
+        </div>
+      </div>
 
-  <a href="index.html" class="back-link">← Retour à l'accueil Katsoffre</a>
+      <div class="form-section">
+        <div class="form-label">Coordonnées de carte</div>
+        <div class="field-group">
+          <div class="field-label">Numéro de carte</div>
+          <div class="card-input-wrap">
+            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+            <div class="card-icons">💳</div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <div class="field-label">Date d'expiration</div>
+            <input type="text" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)">
+          </div>
+          <div class="field-group">
+            <div class="field-label">CVV</div>
+            <input type="text" placeholder="123" maxlength="3">
+          </div>
+        </div>
+      </div>
+
+      <button class="pay-btn" id="payBtn" onclick="simulatePay()">
+        🔒 Payer 15€ (simulation)
+      </button>
+
+      <div class="pay-security">
+        🔐 Crypté 256-bit · Simulation uniquement · Stripe-style
+      </div>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="order-summary">
+      <div class="summary-card">
+        <h3>Récapitulatif de commande</h3>
+
+        <div class="summary-item">
+          <div>
+            <div class="summary-item-name">Katsoffre — Pack Prompts + Templates</div>
+            <div class="summary-item-sub">50 prompts · 20 templates · Guide productivité · Mises à jour incluses</div>
+          </div>
+          <div class="summary-item-price">15€</div>
+        </div>
+
+        <div class="summary-item">
+          <div>
+            <div class="summary-item-name">Réduction offre lancement</div>
+            <div class="summary-item-sub">Expire le 20 mars</div>
+          </div>
+          <div class="summary-item-price" style="color: var(--green);">−14€</div>
+        </div>
+
+        <div class="summary-total">
+          <span>Total à payer</span>
+          <span class="summary-total-price">15€</span>
+        </div>
+
+        <div class="savings-pill" style="margin-top:0.8rem;">
+          🎉 Tu économises 14€ par rapport au prix normal
+        </div>
+      </div>
+
+      <div class="guarantee-card">
+        <div class="guarantee-icon">✅</div>
+        <div>
+          <strong>Accès immédiat garanti.</strong><br>
+          Dès la confirmation, tu reçois tous tes fichiers par e-mail. Pas d'attente, pas de friction.
+        </div>
+      </div>
+
+      <div class="guarantee-card">
+        <div class="guarantee-icon">🔄</div>
+        <div>
+          <strong>Mises à jour gratuites.</strong><br>
+          Tu achètes une fois, tu reçois toutes les futures versions sans rien payer de plus.
+        </div>
+      </div>
+    </div>
+
+  </div>
 </main>
 
 <footer>© 2025 Katsoffre — Simulation pédagogique · Aucun vrai paiement effectué</footer>
 
 <script>
-// Show first name if stored
-const prenom = sessionStorage.getItem('kats_prenom');
-if (prenom) {
-  document.getElementById('prenomDisplay').textContent = prenom + ' !';
-  document.getElementById('nameBreak').remove();
+function formatCard(input) {
+  let v = input.value.replace(/\D/g, '').substring(0, 16);
+  input.value = v.replace(/(.{4})/g, '$1 ').trim();
 }
-
-// Generate confetti
-function makeConfetti() {
-  const colors = ['#ff4d00', '#f5c842', '#0a0a0a', '#22c55e', '#f5f2ec', '#6366f1'];
-  const wrap = document.getElementById('confetti');
-  for (let i = 0; i < 60; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetti-piece';
-    el.style.left = Math.random() * 100 + 'vw';
-    el.style.background = colors[Math.floor(Math.random() * colors.length)];
-    el.style.width = (6 + Math.random() * 8) + 'px';
-    el.style.height = (6 + Math.random() * 8) + 'px';
-    el.style.animationDuration = (2 + Math.random() * 3) + 's';
-    el.style.animationDelay = (Math.random() * 1.5) + 's';
-    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-    wrap.appendChild(el);
-  }
+function formatExpiry(input) {
+  let v = input.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length >= 2) v = v.substring(0,2) + '/' + v.substring(2);
+  input.value = v;
 }
-makeConfetti();
+function simulatePay() {
+  const btn = document.getElementById('payBtn');
+  btn.classList.add('loading');
+  btn.textContent = '⏳ Traitement en cours...';
+  setTimeout(() => {
+    window.location.href = 'confirmation.html';
+  }, 1800);
+}
 </script>
 </body>
 </html>
