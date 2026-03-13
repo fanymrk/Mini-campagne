@@ -1,1 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katsoffre – Réserver ma place</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f2ec;
+    --accent: #ff4d00;
+    --gold: #f5c842;
+    --soft: #e8e4dc;
+    --muted: #888;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 2.5rem;
+    border-bottom: 1px solid var(--soft);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .logo span { color: var(--accent); }
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .step { width: 28px; height: 4px; border-radius: 99px; background: var(--soft); }
+  .step.active { background: var(--accent); }
+  .step.done { background: var(--ink); }
 
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+  }
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    animation: slideUp 0.4s ease both;
+  }
+  @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+
+  .card-header { display: flex; flex-direction: column; gap: 0.5rem; }
+  .step-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .card-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.7rem;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+  .card-header p { font-size: 0.9rem; color: #555; line-height: 1.6; margin-top: 0.2rem; }
+
+  .offer-recap {
+    background: var(--soft);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .offer-recap-name { font-weight: 600; font-size: 0.9rem; }
+  .offer-recap-sub { font-size: 0.78rem; color: var(--muted); }
+  .offer-recap-price {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  label { font-size: 0.82rem; font-weight: 600; letter-spacing: 0.01em; }
+  input[type="text"], input[type="email"] {
+    border: 1.5px solid var(--soft);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--paper);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input:focus { border-color: var(--ink); }
+
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  input[type="checkbox"] { margin-top: 2px; accent-color: var(--accent); }
+
+  .btn-submit {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 1.1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: -0.01em;
+    transition: background 0.18s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .btn-submit:hover { background: var(--accent); transform: translateY(-2px); }
+
+  .security-note {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  footer {
+    border-top: 1px solid var(--soft);
+    padding: 1.2rem 2.5rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Kats<span>offre</span></a>
+  <div class="step-indicator">
+    <div class="step done"></div>
+    <div class="step active"></div>
+    <div class="step"></div>
+    <div class="step"></div>
+    <span style="margin-left:0.3rem;">Étape 1 / 3</span>
+  </div>
+</nav>
+
+<main>
+  <div class="card">
+    <div class="card-header">
+      <span class="step-tag">Étape 1 – Tes informations</span>
+      <h1>Presque là.</h1>
+      <p>On a besoin d'un minimum pour te réserver ta place. C'est rapide — promis.</p>
+    </div>
+
+    <div class="offer-recap">
+      <div>
+        <div class="offer-recap-name">Katsoffre — Pack Prompts + Templates</div>
+        <div class="offer-recap-sub">Accès immédiat · Jusqu'au 20 mars</div>
+      </div>
+      <div class="offer-recap-price">15€</div>
+    </div>
+
+    <div class="form-group">
+      <label for="prenom">Ton prénom</label>
+      <input type="text" id="prenom" name="prenom" placeholder="Ex : Lucas" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Ton adresse e-mail</label>
+      <input type="email" id="email" name="email" placeholder="lucas@email.com" required>
+    </div>
+
+    <div class="consent">
+      <input type="checkbox" id="rgpd" name="rgpd">
+      <label for="rgpd">J'accepte de recevoir mes accès et les informations liées à ma commande par e-mail. Pas de spam, promis.</label>
+    </div>
+
+    <button class="btn-submit" onclick="goCheckout()">
+      Continuer vers le paiement →
+    </button>
+
+    <div class="security-note">🔒 Tes données restent privées · Aucune pub · Suppression sur demande</div>
+  </div>
+</main>
+
+<footer>© 2025 Katsoffre — Simulation pédagogique</footer>
+
+<script>
+function goCheckout() {
+  const prenom = document.getElementById('prenom').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if (!prenom || !email) {
+    alert('Merci de remplir ton prénom et ton e-mail.');
+    return;
+  }
+  if (!email.includes('@')) {
+    alert('L\'adresse e-mail semble incorrecte.');
+    return;
+  }
+  // Store name for confirmation page
+  sessionStorage.setItem('kats_prenom', prenom);
+  window.location.href = 'checkout.html';
+}
+</script>
+</body>
+</html>
