@@ -4,221 +4,191 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Katsoffre – Paiement sécurisé</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0a0a0a;
-    --paper: #f5f2ec;
-    --accent: #ff4d00;
-    --gold: #f5c842;
-    --soft: #e8e4dc;
-    --muted: #888;
-    --green: #22c55e;
+    --white: #ffffff;
+    --bg: #f8f9fb;
+    --ink: #111827;
+    --ink-soft: #374151;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --accent: #2563eb;
+    --accent-dark: #1d4ed8;
+    --accent-light: #eff6ff;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --orange: #ea580c;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 8px 32px rgba(0,0,0,0.08);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: #f0ede6;
+    background: var(--bg);
     color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
   }
+
+  /* NAV */
   nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    padding: 1.4rem 2.5rem;
-    background: var(--paper);
-    border-bottom: 1px solid var(--soft);
   }
-  .logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.3rem;
-    letter-spacing: -0.03em;
-    text-decoration: none;
-    color: var(--ink);
-  }
-  .logo span { color: var(--accent); }
-  .step-indicator {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.78rem;
-    color: var(--muted);
-    font-weight: 500;
-  }
-  .step { width: 28px; height: 4px; border-radius: 99px; background: var(--soft); }
-  .step.active { background: var(--accent); }
-  .step.done { background: var(--ink); }
+  .logo { font-weight: 800; font-size: 1.25rem; color: var(--ink); letter-spacing: -0.02em; text-decoration: none; }
+  .logo-dot { color: var(--accent); }
+  .steps { display: flex; align-items: center; gap: 0.5rem; }
+  .step-bar { width: 32px; height: 4px; border-radius: 99px; background: var(--border); }
+  .step-bar.done { background: var(--green); }
+  .step-bar.active { background: var(--accent); }
+  .step-label { font-size: 0.78rem; color: var(--muted); font-weight: 600; margin-left: 0.25rem; }
+  .secure-badge { display: flex; align-items: center; gap: 0.35rem; font-size: 0.78rem; color: var(--green); font-weight: 700; }
 
-  .secure-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.78rem;
-    color: var(--green);
-    font-weight: 600;
-  }
-
+  /* MAIN */
   main {
     flex: 1;
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem;
   }
 
-  .checkout-layout {
+  .checkout-grid {
     display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 2rem;
+    grid-template-columns: 1fr 340px;
+    gap: 1.5rem;
     max-width: 860px;
     width: 100%;
     animation: slideUp 0.4s ease both;
   }
-  @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+  @keyframes slideUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
 
   @media (max-width: 700px) {
-    .checkout-layout { grid-template-columns: 1fr; }
-    .order-summary { order: -1; }
+    .checkout-grid { grid-template-columns: 1fr; }
+    .order-col { order: -1; }
   }
 
-  /* PAYMENT FORM */
+  /* PAYMENT CARD */
   .payment-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 2.2rem;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.07);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
   }
-  .payment-card h2 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.3rem;
-    letter-spacing: -0.02em;
+  .payment-card h2 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; }
+
+  .sim-banner {
+    background: #fefce8;
+    border: 1.5px solid #fde68a;
+    border-radius: var(--radius);
+    padding: 0.85rem 1rem;
+    font-size: 0.82rem;
+    color: #92400e;
+    display: flex;
+    gap: 0.6rem;
+    line-height: 1.55;
   }
 
-  .form-section { display: flex; flex-direction: column; gap: 1rem; }
-  .form-label {
-    font-size: 0.75rem;
+  .form-section { display: flex; flex-direction: column; gap: 0.9rem; }
+  .section-label {
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: -0.4rem;
   }
   .field-group { display: flex; flex-direction: column; gap: 0.35rem; }
-  .field-label { font-size: 0.82rem; font-weight: 600; }
-  .field-row { display: flex; gap: 0.8rem; }
+  .field-label { font-size: 0.83rem; font-weight: 700; color: var(--ink-soft); }
+  .field-row { display: flex; gap: 0.75rem; }
   .field-row .field-group { flex: 1; }
 
-  input[type="text"], input[type="email"] {
-    border: 1.5px solid var(--soft);
+  input[type="text"] {
+    border: 1.5px solid var(--border);
     border-radius: 8px;
-    padding: 0.82rem 1rem;
-    font-family: 'DM Sans', sans-serif;
+    padding: 0.78rem 1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.93rem;
     color: var(--ink);
-    background: var(--paper);
+    background: var(--white);
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.15s, box-shadow 0.15s;
     width: 100%;
   }
-  input:focus { border-color: var(--ink); }
+  input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
 
-  .card-input-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-  .card-input-wrap input { padding-right: 3rem; }
-  .card-icons {
-    position: absolute;
-    right: 0.8rem;
-    display: flex;
-    gap: 4px;
-    font-size: 1.1rem;
-  }
-
-  .simulation-banner {
-    background: #fffbe6;
-    border: 1.5px solid var(--gold);
-    border-radius: 10px;
-    padding: 0.9rem 1rem;
-    font-size: 0.82rem;
-    color: #7a5c00;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
-    line-height: 1.5;
-  }
+  .card-field-wrap { position: relative; }
+  .card-field-wrap input { padding-right: 3.5rem; }
+  .card-chip { position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%); font-size: 1rem; opacity: 0.5; }
 
   .pay-btn {
     background: var(--accent);
     color: #fff;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.05rem;
-    padding: 1.15rem 2rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.9rem 2rem;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--radius);
     cursor: pointer;
     width: 100%;
-    letter-spacing: -0.01em;
-    transition: background 0.18s, transform 0.15s;
+    transition: background 0.15s, transform 0.15s;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
-  .pay-btn:hover { background: #d93a00; transform: translateY(-2px); }
+  .pay-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .pay-btn.loading { background: var(--muted); pointer-events: none; }
 
-  .pay-security {
+  .pay-note {
     text-align: center;
     font-size: 0.76rem;
     color: var(--muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
+    gap: 0.35rem;
   }
 
   /* ORDER SUMMARY */
-  .order-summary {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
+  .order-col { display: flex; flex-direction: column; gap: 1rem; }
+
   .summary-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 1.8rem;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.07);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.6rem;
+    box-shadow: var(--shadow);
   }
-  .summary-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.2rem;
-  }
-  .summary-item {
+  .summary-card h3 { font-size: 0.95rem; font-weight: 800; margin-bottom: 1.2rem; letter-spacing: -0.01em; }
+
+  .summary-line {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid var(--soft);
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border);
     gap: 1rem;
+    font-size: 0.875rem;
   }
-  .summary-item:last-of-type { border-bottom: none; }
-  .summary-item-name { font-size: 0.88rem; font-weight: 500; }
-  .summary-item-sub { font-size: 0.76rem; color: var(--muted); margin-top: 0.15rem; }
-  .summary-item-price { font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
+  .summary-line:last-of-type { border-bottom: none; }
+  .summary-line-name { font-weight: 500; color: var(--ink-soft); }
+  .summary-line-sub { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+  .summary-line-price { font-weight: 700; white-space: nowrap; }
+  .price-green { color: var(--green); }
 
   .summary-total {
     display: flex;
@@ -229,74 +199,71 @@
     margin-top: 0.5rem;
   }
   .summary-total span:first-child { font-weight: 700; font-size: 0.9rem; }
-  .summary-total-price {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.6rem;
-  }
+  .total-price { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.025em; }
 
-  .savings-pill {
-    background: #dcfce7;
-    color: #15803d;
+  .savings-row {
+    background: var(--green-light);
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 0.5rem 0.9rem;
     font-size: 0.78rem;
     font-weight: 700;
-    padding: 0.35rem 0.8rem;
-    border-radius: 999px;
+    color: var(--green);
     text-align: center;
+    margin-top: 0.8rem;
   }
 
-  .guarantee-card {
-    background: var(--soft);
-    border-radius: 14px;
-    padding: 1.2rem;
-    display: flex;
-    gap: 0.8rem;
-    align-items: flex-start;
+  .reassurance-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.2rem;
     font-size: 0.82rem;
-    color: #444;
-    line-height: 1.5;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
   }
-  .guarantee-icon { font-size: 1.3rem; }
+  .reassurance-card strong { display: block; color: var(--ink); font-weight: 700; margin-bottom: 0.15rem; }
 
+  /* FOOTER */
   footer {
-    border-top: 1px solid var(--soft);
-    padding: 1.2rem 2.5rem;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 1.1rem 2rem;
     text-align: center;
     font-size: 0.78rem;
     color: var(--muted);
   }
-
-  /* Loading animation on click */
-  .pay-btn.loading { background: #aaa; pointer-events: none; }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="logo">Kats<span>offre</span></a>
-  <div class="step-indicator">
-    <div class="step done"></div>
-    <div class="step done"></div>
-    <div class="step active"></div>
-    <div class="step"></div>
-    <span style="margin-left:0.3rem;">Étape 2 / 3</span>
+  <a href="index.html" class="logo">Kats<span class="logo-dot">.</span>offre</a>
+  <div class="steps">
+    <div class="step-bar done"></div>
+    <div class="step-bar active"></div>
+    <div class="step-bar"></div>
+    <span class="step-label">Étape 2 / 3</span>
   </div>
   <div class="secure-badge">🔒 Paiement simulé</div>
 </nav>
 
 <main>
-  <div class="checkout-layout">
+  <div class="checkout-grid">
 
-    <!-- PAYMENT FORM -->
+    <!-- FORMULAIRE PAIEMENT -->
     <div class="payment-card">
       <h2>Informations de paiement</h2>
 
-      <div class="simulation-banner">
-        ⚠️ <div><strong>Mode simulation :</strong> Cette page est un exercice pédagogique. Aucune carte ne sera débitée. N'entre aucune vraie donnée bancaire.</div>
+      <div class="sim-banner">
+        ⚠️ <div><strong>Mode simulation :</strong> Exercice pédagogique uniquement. Aucune carte ne sera débitée. N'entre pas de vraies données bancaires.</div>
       </div>
 
       <div class="form-section">
-        <div class="form-label">Titulaire de la carte</div>
+        <div class="section-label">Titulaire de la carte</div>
         <div class="field-group">
           <div class="field-label">Nom complet</div>
           <input type="text" placeholder="Lucas Dupont">
@@ -304,17 +271,17 @@
       </div>
 
       <div class="form-section">
-        <div class="form-label">Coordonnées de carte</div>
+        <div class="section-label">Coordonnées de carte</div>
         <div class="field-group">
           <div class="field-label">Numéro de carte</div>
-          <div class="card-input-wrap">
+          <div class="card-field-wrap">
             <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
-            <div class="card-icons">💳</div>
+            <span class="card-chip">💳</span>
           </div>
         </div>
         <div class="field-row">
           <div class="field-group">
-            <div class="field-label">Date d'expiration</div>
+            <div class="field-label">Expiration</div>
             <input type="text" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)">
           </div>
           <div class="field-group">
@@ -328,56 +295,48 @@
         🔒 Payer 15€ (simulation)
       </button>
 
-      <div class="pay-security">
-        🔐 Crypté 256-bit · Simulation uniquement · Stripe-style
+      <div class="pay-note">
+        🔐 Crypté 256-bit · Simulation pédagogique uniquement
       </div>
     </div>
 
-    <!-- ORDER SUMMARY -->
-    <div class="order-summary">
+    <!-- RÉSUMÉ COMMANDE -->
+    <div class="order-col">
       <div class="summary-card">
-        <h3>Récapitulatif de commande</h3>
+        <h3>Récapitulatif</h3>
 
-        <div class="summary-item">
+        <div class="summary-line">
           <div>
-            <div class="summary-item-name">Katsoffre — Pack Prompts + Templates</div>
-            <div class="summary-item-sub">50 prompts · 20 templates · Guide productivité · Mises à jour incluses</div>
+            <div class="summary-line-name">Katsoffre — Pack Prompts + Templates</div>
+            <div class="summary-line-sub">50 prompts · 20 templates · Guide productivité</div>
           </div>
-          <div class="summary-item-price">15€</div>
+          <div class="summary-line-price">15€</div>
         </div>
 
-        <div class="summary-item">
+        <div class="summary-line">
           <div>
-            <div class="summary-item-name">Réduction offre lancement</div>
-            <div class="summary-item-sub">Expire le 20 mars</div>
+            <div class="summary-line-name">Réduction lancement</div>
+            <div class="summary-line-sub">Expire le 20 mars</div>
           </div>
-          <div class="summary-item-price" style="color: var(--green);">−14€</div>
+          <div class="summary-line-price price-green">−14€</div>
         </div>
 
         <div class="summary-total">
-          <span>Total à payer</span>
-          <span class="summary-total-price">15€</span>
+          <span>Total</span>
+          <span class="total-price">15€</span>
         </div>
 
-        <div class="savings-pill" style="margin-top:0.8rem;">
-          🎉 Tu économises 14€ par rapport au prix normal
-        </div>
+        <div class="savings-row">🎉 Tu économises 14€ par rapport au prix normal</div>
       </div>
 
-      <div class="guarantee-card">
-        <div class="guarantee-icon">✅</div>
-        <div>
-          <strong>Accès immédiat garanti.</strong><br>
-          Dès la confirmation, tu reçois tous tes fichiers par e-mail. Pas d'attente, pas de friction.
-        </div>
+      <div class="reassurance-card">
+        <span>✅</span>
+        <div><strong>Accès immédiat garanti</strong>Tu reçois tous tes fichiers par e-mail dès la confirmation.</div>
       </div>
 
-      <div class="guarantee-card">
-        <div class="guarantee-icon">🔄</div>
-        <div>
-          <strong>Mises à jour gratuites.</strong><br>
-          Tu achètes une fois, tu reçois toutes les futures versions sans rien payer de plus.
-        </div>
+      <div class="reassurance-card">
+        <span>🔄</span>
+        <div><strong>Mises à jour gratuites</strong>Tu achètes une fois, toutes les futures versions sont incluses.</div>
       </div>
     </div>
 
@@ -400,9 +359,7 @@ function simulatePay() {
   const btn = document.getElementById('payBtn');
   btn.classList.add('loading');
   btn.textContent = '⏳ Traitement en cours...';
-  setTimeout(() => {
-    window.location.href = 'confirmation.html';
-  }, 1800);
+  setTimeout(() => { window.location.href = 'confirmation.html'; }, 1800);
 }
 </script>
 </body>
