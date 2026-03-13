@@ -1,1 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katsoffre – Commande confirmée 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f2ec;
+    --accent: #ff4d00;
+    --gold: #f5c842;
+    --soft: #e8e4dc;
+    --muted: #888;
+    --green: #22c55e;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1.4rem 2.5rem;
+    border-bottom: 1px solid var(--soft);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .logo span { color: var(--accent); }
 
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    max-width: 600px;
+    width: 100%;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  /* CONFETTI ANIMATION */
+  .confetti-wrap {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    border-radius: 2px;
+    animation: confettifall linear forwards;
+  }
+  @keyframes confettifall {
+    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* SUCCESS ICON */
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    background: #dcfce7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #555;
+    max-width: 440px;
+    line-height: 1.7;
+  }
+
+  /* ORDER RECAP CARD */
+  .order-recap {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.8rem;
+    width: 100%;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.5s 0.35s ease both;
+  }
+  .recap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .recap-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+  }
+  .recap-badge {
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+  }
+  .recap-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--soft);
+    font-size: 0.88rem;
+    gap: 1rem;
+  }
+  .recap-row:last-of-type { border-bottom: none; }
+  .recap-label { color: #555; }
+  .recap-value { font-weight: 600; text-align: right; }
+
+  /* NEXT STEPS */
+  .next-steps {
+    background: var(--soft);
+    border-radius: 16px;
+    padding: 1.8rem;
+    width: 100%;
+    text-align: left;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.5s 0.5s ease both;
+  }
+  .next-steps h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .steps-list { display: flex; flex-direction: column; gap: 0.8rem; }
+  .step-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    color: #333;
+    line-height: 1.5;
+  }
+  .step-num {
+    background: var(--ink);
+    color: var(--paper);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* REASSURANCE */
+  .reassurance-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.5s 0.65s ease both;
+  }
+  @media (max-width: 520px) { .reassurance-row { flex-direction: column; } }
+  .reassurance-card {
+    flex: 1;
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.2rem;
+    font-size: 0.82rem;
+    color: #555;
+    line-height: 1.5;
+    text-align: left;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+  }
+  .reassurance-card strong { display: block; color: var(--ink); font-weight: 700; margin-bottom: 0.3rem; }
+
+  .back-link {
+    position: relative;
+    z-index: 1;
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--muted);
+    padding-bottom: 1px;
+    animation: fadeUp 0.5s 0.8s ease both;
+  }
+  .back-link:hover { color: var(--ink); }
+
+  footer {
+    width: 100%;
+    border-top: 1px solid var(--soft);
+    padding: 1.2rem 2.5rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="confetti-wrap" id="confetti"></div>
+
+<nav>
+  <a href="index.html" class="logo">Kats<span>offre</span></a>
+</nav>
+
+<main>
+  <div class="success-icon">🎉</div>
+
+  <div class="main-content">
+    <h1>C'est <em>confirmé</em>,<br id="nameBreak"> <span id="prenomDisplay">bienvenue !</span></h1>
+    <p class="subtitle">
+      Ta commande est validée. Tu vas recevoir ton accès par e-mail dans les prochaines minutes. Le temps de prendre un café, et c'est dans ta boîte.
+    </p>
+  </div>
+
+  <div class="order-recap">
+    <div class="recap-header">
+      <span class="recap-title">Récapitulatif de commande</span>
+      <span class="recap-badge">✅ Confirmé</span>
+    </div>
+    <div class="recap-row">
+      <span class="recap-label">Produit</span>
+      <span class="recap-value">Katsoffre — Pack Prompts + Templates</span>
+    </div>
+    <div class="recap-row">
+      <span class="recap-label">Contenu</span>
+      <span class="recap-value">50 prompts · 20 templates · Guide productivité</span>
+    </div>
+    <div class="recap-row">
+      <span class="recap-label">Montant débité</span>
+      <span class="recap-value">15€ <span style="color:#888;font-weight:400;">(simulation)</span></span>
+    </div>
+    <div class="recap-row">
+      <span class="recap-label">Livraison</span>
+      <span class="recap-value">Par e-mail · Accès immédiat</span>
+    </div>
+  </div>
+
+  <div class="next-steps">
+    <h3>📬 Et maintenant ?</h3>
+    <div class="steps-list">
+      <div class="step-row">
+        <span class="step-num">1</span>
+        <span>Vérifie ta boîte e-mail — ton lien d'accès t'a été envoyé (pense aux spams si besoin).</span>
+      </div>
+      <div class="step-row">
+        <span class="step-num">2</span>
+        <span>Télécharge tes fichiers et organise-les dans un dossier dédié pour retrouver facilement ce dont tu as besoin.</span>
+      </div>
+      <div class="step-row">
+        <span class="step-num">3</span>
+        <span>Lance-toi avec le Guide Productivité pour tirer le meilleur parti de tes nouveaux outils dès aujourd'hui.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="reassurance-row">
+    <div class="reassurance-card">
+      <strong>🔄 Mises à jour incluses</strong>
+      Tu reçois toutes les futures versions gratuitement. Ton pack évolue avec toi.
+    </div>
+    <div class="reassurance-card">
+      <strong>💬 Un problème ?</strong>
+      Réponds simplement à l'e-mail de confirmation. On répond sous 24h, toujours.
+    </div>
+    <div class="reassurance-card">
+      <strong>🎓 Conçu pour toi</strong>
+      Chaque prompt et template a été conçu pour les étudiants qui veulent aller vite et bien.
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">← Retour à l'accueil Katsoffre</a>
+</main>
+
+<footer>© 2025 Katsoffre — Simulation pédagogique · Aucun vrai paiement effectué</footer>
+
+<script>
+// Show first name if stored
+const prenom = sessionStorage.getItem('kats_prenom');
+if (prenom) {
+  document.getElementById('prenomDisplay').textContent = prenom + ' !';
+  document.getElementById('nameBreak').remove();
+}
+
+// Generate confetti
+function makeConfetti() {
+  const colors = ['#ff4d00', '#f5c842', '#0a0a0a', '#22c55e', '#f5f2ec', '#6366f1'];
+  const wrap = document.getElementById('confetti');
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.width = (6 + Math.random() * 8) + 'px';
+    el.style.height = (6 + Math.random() * 8) + 'px';
+    el.style.animationDuration = (2 + Math.random() * 3) + 's';
+    el.style.animationDelay = (Math.random() * 1.5) + 's';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    wrap.appendChild(el);
+  }
+}
+makeConfetti();
+</script>
+</body>
+</html>
