@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katsoffre – Campagne Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff;
+    --bg: #f8f9fb;
+    --ink: #111827;
+    --ink-soft: #374151;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --accent: #2563eb;
+    --accent-dark: #1d4ed8;
+    --accent-light: #eff6ff;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --yellow-light: #fefce8;
+    --yellow-border: #fde68a;
+    --radius: 12px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.06);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo { font-weight: 800; font-size: 1.25rem; color: var(--ink); letter-spacing: -0.02em; text-decoration: none; }
+  .logo-dot { color: var(--accent); }
+  .nav-back {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.15s;
+  }
+  .nav-back:hover { color: var(--ink); }
+
+  /* PAGE */
+  .page { max-width: 780px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+  /* HEADER */
+  .page-header { margin-bottom: 3rem; }
+  .page-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.28rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid #bfdbfe;
+    margin-bottom: 0.9rem;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .page-header p { font-size: 0.95rem; color: var(--muted); line-height: 1.65; max-width: 560px; }
+
+  /* SECTIONS */
+  .section { margin-bottom: 2.5rem; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-num {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .section-title { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
+
+  /* SLOGAN */
+  .slogan-card {
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  .slogan-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  .slogan-text .highlight { color: #93c5fd; }
+  .slogan-meta { font-size: 0.8rem; color: #6b7280; }
+
+  /* POST CARDS */
+  .post-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--accent);
+  }
+  .post-platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+    background: var(--bg);
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+  }
+  .post-body {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    white-space: pre-wrap;
+  }
+  .post-body strong { font-weight: 700; color: var(--ink); }
+  .post-cta { color: var(--accent); font-weight: 700; }
+  .post-tags { color: var(--muted); font-size: 0.82rem; }
+
+  /* EMAIL */
+  .email-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .email-header {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 1.1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .email-meta {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .email-meta span { font-weight: 700; color: var(--ink); }
+  .email-subject { font-size: 1rem; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
+  .email-body {
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    white-space: pre-wrap;
+  }
+  .email-body strong { font-weight: 700; color: var(--ink); }
+  .email-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.875rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    text-decoration: none;
+  }
+  .email-sig { margin-top: 1rem; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1rem; }
+
+  /* ALIGNMENT NOTE */
+  .alignment-note {
+    background: var(--yellow-light);
+    border: 1.5px solid var(--yellow-border);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.4rem;
+    font-size: 0.875rem;
+    color: #92400e;
+    line-height: 1.65;
+  }
+  .alignment-note strong { font-weight: 700; color: var(--ink); }
+  .alignment-item {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.6rem;
+    align-items: flex-start;
+  }
+  .alignment-num {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 1.1rem 2rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Kats<span class="logo-dot">.</span>offre</a>
+  <a href="index.html" class="nav-back">← Retour à l'accueil</a>
+</nav>
+
+<div class="page">
+
+  <div class="page-header">
+    <div class="page-tag">✦ Documents internes</div>
+    <h1>Campagne Marketing</h1>
+    <p>Slogan, posts réseaux sociaux et e-mail promotionnel — tous alignés avec le tunnel de vente. Un message, une voix.</p>
+  </div>
+
+  <!-- SLOGAN -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Le slogan</span>
+    </div>
+    <div class="slogan-card">
+      <div class="slogan-text">Moins de temps perdu,<br><span class="highlight">plus de résultats.</span></div>
+      <div class="slogan-meta">6 mots · Orienté bénéfice · Intégré dans le H1 de index.html</div>
+    </div>
+  </div>
+
+  <!-- POSTS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">3 messages réseaux sociaux</span>
+    </div>
+
+    <div class="post-card">
+      <div class="post-platform">📸 Instagram — Post carrousel</div>
+      <div class="post-body">Tu passes 3h sur un devoir que tu pourrais finir en 45 min ?
+
+C'est ça le vrai problème. Pas le manque de talent — le manque d'outils.
+
+<strong>Katsoffre, c'est 50 prompts IA + 20 templates prêts à l'emploi</strong> pour les étudiants qui veulent aller vite et bien faire.
+
+✅ Accès immédiat
+✅ Mises à jour incluses
+✅ 15€ seulement
+
+⏳ Plus que quelques places avant le 20 mars.
+
+<span class="post-cta">👉 Lien en bio pour réserver ta place.</span>
+
+<span class="post-tags">#productivité #étudiant #IA #templates #katsoffre #gagnerdutemps</span></div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-platform">💼 LinkedIn — Post texte</div>
+      <div class="post-body">En tant qu'étudiant, ton temps est ta ressource la plus précieuse.
+
+Et pourtant, combien d'heures passes-tu chaque semaine à reformuler, structurer, rédiger depuis zéro ?
+
+J'ai créé <strong>Katsoffre</strong> pour répondre à ce problème : un pack de prompts et de templates conçus spécifiquement pour simplifier la vie des étudiants.
+
+→ Des formules IA testées pour obtenir exactement ce que tu cherches
+→ Des templates de CV, lettres, dissertations, emails — prêts à remplir
+→ Un guide de productivité pour travailler mieux, pas plus
+
+<strong>15€. Accès immédiat. Jusqu'au 20 mars — 250 places disponibles.</strong>
+
+<span class="post-cta">🔗 Réserve ta place ici (lien en commentaire)</span>
+
+<span class="post-tags">#étudiants #productivité #IA #prompts #formation</span></div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-platform">📸 Instagram — Story urgence</div>
+      <div class="post-body">⚡ RAPPEL URGENT ⚡
+
+Il reste <strong>moins de 48h</strong> et seulement quelques places disponibles sur les 250 au total.
+
+Après le <strong>20 mars</strong>, Katsoffre repasse à son prix normal.
+
+Pour 15€ maintenant, tu accèdes à :
+→ 50 prompts IA
+→ 20 templates étudiants
+→ 1 guide productivité complet
+
+<span class="post-cta">Swipe up pour ne pas le rater 👆</span></div>
+    </div>
+  </div>
+
+  <!-- EMAIL -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">E-mail promotionnel</span>
+    </div>
+
+    <div class="email-card">
+      <div class="email-header">
+        <div class="email-meta">De : <span>Katsoffre &lt;bonjour@katsoffre.com&gt;</span></div>
+        <div class="email-meta">Objet :</div>
+        <div class="email-subject">Tu perds des heures chaque semaine (et il y a une solution à 15€)</div>
+      </div>
+      <div class="email-body">Bonjour,
+
+Tu le sais aussi bien que moi : une bonne partie du temps qu'on passe à travailler n'est pas vraiment du travail. C'est de la mise en forme, de la reformulation, des recherches pour retrouver un modèle qu'on a vu il y a 3 semaines.
+
+<strong>Katsoffre existe pour mettre fin à ça.</strong>
+
+C'est un pack pensé pour les étudiants qui veulent récupérer leur temps sans sacrifier la qualité de leur travail.
+
+→ <strong>50 prompts IA prêts à l'emploi</strong> — rédiger, résumer, structurer en quelques secondes
+→ <strong>20 templates plug & play</strong> — CV, lettres, dissertations, emails pro
+→ <strong>1 guide de productivité étudiant</strong> — travailler moins, mais mieux
+→ <strong>Mises à jour gratuites</strong> — le pack évolue, tu reçois tout sans rien payer de plus
+
+<a class="email-cta-btn" href="index.html">Accéder à Katsoffre pour 15€ →</a>
+
+⏳ <strong>Attention :</strong> l'offre expire le <strong>20 mars</strong>, il ne reste que 250 places. Après cette date, le prix reviendra à son niveau normal.
+
+<div class="email-sig">À très vite,
+L'équipe Katsoffre
+
+P.S. : À 15€, c'est moins que deux cafés en bibliothèque. Et ça va te faire gagner des heures.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALIGNEMENT -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Cohérence du tunnel</span>
+    </div>
+    <div class="alignment-note">
+      <strong>3 éléments de campagne intégrés dans index.html :</strong>
+      <div class="alignment-item">
+        <span class="alignment-num">1</span>
+        <span><strong>Slogan</strong> → visible dans le H1 : "Moins de temps perdu, plus de résultats."</span>
+      </div>
+      <div class="alignment-item">
+        <span class="alignment-num">2</span>
+        <span><strong>Urgence</strong> → bandeau orange en haut + section dédiée : "Jusqu'au 20 mars · 250 places"</span>
+      </div>
+      <div class="alignment-item">
+        <span class="alignment-num">3</span>
+        <span><strong>Bénéfice principal</strong> → sous-titre hero : "Le pack qui simplifie ta vie d'étudiant"</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>© 2025 Katsoffre — Simulation pédagogique · Aucun vrai paiement effectué</footer>
+
+</body>
+</html>
